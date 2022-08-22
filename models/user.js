@@ -22,7 +22,7 @@ class User {
       [username]);
 
     let user = results.rows[0];
-
+    // TODO: no if statement
     if (!user) {
       const hashedPassword = await bcrypt.hash(
         password, BCRYPT_WORK_FACTOR);
@@ -37,7 +37,7 @@ class User {
       return user.rows[0];
     }
 
-    throw new BadRequestError(`${username} taken!`);
+    // throw new BadRequestError(`${username} taken!`);
   }
 
   /** Authenticate: is username/password valid? Returns boolean. */
@@ -49,10 +49,10 @@ class User {
         WHERE username = $1`,
       [username]);
 
-    let hashedPassword = results.rows[0].password;
+    let user = results.rows[0];
 
-    if (hashedPassword) {
-      if (await bcrypt.compare(password, hashedPassword) === true) {
+    if (user) {
+      if (await bcrypt.compare(password, user.password) === true) {
         return true;
       }
     }
@@ -61,9 +61,6 @@ class User {
   }
 
   /** Update last_login_at for user*/
-
-  // TIMESTAMP '2004-10-19 10:23:54'
-  // TIMESTAMP '2004-10-19 10:23:54+02' with time zone
 
   static async updateLoginTimestamp(username) {
 
