@@ -22,8 +22,8 @@ const { UnauthorizedError } = require('../expressError');
 router.get('/:id', ensureLoggedIn, async function (req, res, next) {
   const message = await Message.get(req.params.id);
 
-  if (res.locals.user === message.to_user.username
-    || res.locals.user === message.from_user.username) {
+  if (res.locals.user.username === message.to_user.username
+    || res.locals.user.username === message.from_user.username) {
     return res.json({ message });
   }
   throw new UnauthorizedError('Not authorized to see these messages!');
@@ -57,12 +57,12 @@ router.post('/:id/read', ensureLoggedIn, async function (req, res, next) {
   const message = await Message.get(req.params.id);
 
   if (res.locals.user === message.to_user.username) {
-    const messageRead = Message.markRead(req.param.id)
+    const messageRead = Message.markRead(req.param.id);
     return res.json({ message: messageRead });
-    
+
   }
   throw new UnauthorizedError('Not authorized to mark as read!');
-})
+});
 
 
 module.exports = router;

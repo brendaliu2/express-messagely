@@ -14,6 +14,7 @@ function authenticateJWT(req, res, next) {
   try {
     const tokenFromRequest = req.query._token || req.body._token;
     const payload = jwt.verify(tokenFromRequest, SECRET_KEY);
+
     res.locals.user = payload;
     return next();
   } catch (err) {
@@ -41,7 +42,7 @@ function ensureLoggedIn(req, res, next) {
 function ensureCorrectUser(req, res, next) {
   try {
     if (!res.locals.user ||
-        res.locals.user.username !== req.params.username) {
+      res.locals.user.username !== req.params.username) {
       throw new UnauthorizedError();
     } else {
       return next();

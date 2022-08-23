@@ -16,6 +16,7 @@ router.post('/login', async function (req, res, next) {
 
   if (user) {
     const token = jwt.sign({ username }, SECRET_KEY);
+
     return res.json({ token });
   }
   throw new UnauthorizedError("Invalid user/password");
