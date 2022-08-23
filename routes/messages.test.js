@@ -8,7 +8,7 @@ const db = require("../db");
 const User = require("../models/user");
 const Message = require("../models/message");
 
-
+// look at test common file
 
 describe("Message Routes Test", function () {
   let u1;
@@ -19,7 +19,7 @@ describe("Message Routes Test", function () {
   beforeEach(async function () {
     await db.query("DELETE FROM messages");
     await db.query("DELETE FROM users");
-    await db.query("ALTER SEQUENCE messages_id_seq RESTART WITH 1");
+
 
     u1 = await User.register({
       username: "test1",
@@ -70,9 +70,13 @@ describe("Message Routes Test", function () {
           from_user: expect.any(Object),
           to_user: expect.any(Object)
         }
+        
+        //TODO: add from user and to user object detail
       });
     });
   });
+  
+  //TODO:: use const where can
   
   /**POST / to create message*/
   describe('POST /', function(){

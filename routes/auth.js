@@ -8,6 +8,7 @@ const { SECRET_KEY } = require('../config');
 const { BadRequestError, UnauthorizedError } = require('../expressError');
 
 const User = require('../models/user');
+//TODO: use login timestamp
 
 /** POST /login: {username, password} => {token} */
 router.post('/login', async function (req, res, next) {
