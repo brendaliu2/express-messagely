@@ -39,9 +39,10 @@ router.get('/:id', ensureLoggedIn, async function (req, res, next) {
 router.post('/', ensureLoggedIn, async function (req, res, next) {
   const { to_username, body } = req.body;
 
-  const currUser = res.locals.user;
-  const message = await Message.create(currUser, to_username, body);
+  const from_username = res.locals.user.username;
+  const message = await Message.create({from_username, to_username, body});
 
+  
   return res.json({ message });
 });
 
@@ -56,8 +57,8 @@ router.post('/', ensureLoggedIn, async function (req, res, next) {
 router.post('/:id/read', ensureLoggedIn, async function (req, res, next) {
   const message = await Message.get(req.params.id);
 
-  if (res.locals.user === message.to_user.username) {
-    const messageRead = Message.markRead(req.param.id);
+  if (res.locals.user.username === message.to_user.username) {
+    const messageRead = await Message.markRead(req.params.id);
     return res.json({ message: messageRead });
 
   }
